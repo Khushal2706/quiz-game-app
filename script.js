@@ -15,7 +15,10 @@ const scoreEl = document.getElementById("score");
 // manipulating the dom 
 questionEl.textContent = question;
 //  adding buttons on the option div
-options.forEach((opt) =>{
+const shuffledOptions = shuffleOptions(options);
+
+// populating the options
+shuffledOptions.forEach((opt) =>{
     const btn = document.createElement("button");
     btn.textContent = opt;
     optionEl.appendChild(btn);
@@ -34,5 +37,12 @@ options.forEach((opt) =>{
     })
 });
 
-
+// shuffling the options
+function shuffleOptions(options){
+    for(let i = 0; i <= options.length-1; i++){
+        const j = Math.floor(Math.random()*(i + 1));
+       [options[i], options[j]] = [options[j], options[i]];
+    }
+    return options;
+}
 
