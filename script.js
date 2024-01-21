@@ -1,19 +1,93 @@
-const questionobj ={
-    category: "food and drink",
-    id: "qa-1",
-    correctAnswer: "three",
-    options: ["two","three","four","five"],
-    question: "How many pieces of buns are in a Mcdonald's big Mac?"
-};
+const quesJSON = [
+    {
+      correctAnswer: 'Three ',
+      options: ['Two', 'Three ', 'Four', 'Five'],
+      question:
+        "How many pieces of bun are in a Mcdonald's Big Mac?",
+    },
+    {
+      correctAnswer: 'L. Frank Baum',
+      options: [
+        'Suzanne Collins',
+        'James Fenimore Cooper',
+        'L. Frank Baum',
+        'Donna Leon',
+      ],
+      question:
+        "Which author wrote 'The Wonderful Wizard of Oz'?",
+    },
+    {
+      correctAnswer: 'Atlanta United',
+      options: [
+        'Atlanta United',
+        'Atlanta Impact',
+        'Atlanta Bulls',
+        'Atlanta Stars',
+      ],
+      question:
+        'Which of these is a soccer team based in Atlanta?',
+    },
+    {
+      correctAnswer: 'A Nanny',
+      options: [
+        'A Sow',
+        'A Lioness',
+        'A Hen',
+        'A Nanny',
+      ],
+      question: 'A female goat is known as what?',
+    },
+    {
+      correctAnswer: 'P. L. Travers',
+      options: [
+        'J. R. R. Tolkien',
+        'P. L. Travers',
+        'Lewis Carroll',
+        'Enid Blyton',
+      ],
+      question:
+        "Which author wrote 'Mary Poppins'?",
+    },
+  ];
+
 // destructuring the needy elements
 let score = 0;
-const {correctAnswer, options, question} = questionobj;
+let currentQuestion = 0;
+const {correctAnswer, options, question} = quesJSON[currentQuestion];
 // fetching the content
 const questionEl = document.getElementById("question");
 const optionEl = document.getElementById("options");
 const scoreEl = document.getElementById("score");
-// manipulating the dom 
+
+function showQuestion(){
+    const {correctAnswer, options, question} = quesJSON[currentQuestion];
+    // manipulating the dom 
 questionEl.textContent = question;
+//  adding buttons on the option div
+const shuffledOptions = shuffleOptions(options);
+
+// populating the options
+shuffledOptions.forEach((opt) =>{
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    optionEl.appendChild(btn);
+
+    // event handling on the button
+    btn.addEventListener("click", ()=>{
+        if(opt == correctAnswer){
+            score++;
+        }else{
+            score = score-0.25;
+        }
+        console.log(score);
+        scoreEl.textContent = `Score: ${score}`;
+        questionEl.textContent = `quiz completed!!!`
+        optionEl.textContent = "";
+    })
+});
+
+}
+
 //  adding buttons on the option div
 const shuffledOptions = shuffleOptions(options);
 
