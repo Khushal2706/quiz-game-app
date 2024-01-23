@@ -51,14 +51,21 @@ const quesJSON = [
   ];
 
 // destructuring the needy elements
-let score = 0;
-let currentQuestion = 0;
-const {correctAnswer, options, question} = quesJSON[currentQuestion];
+
 // fetching the content
 const questionEl = document.getElementById("question");
 const optionEl = document.getElementById("options");
 const scoreEl = document.getElementById("score");
+const nextEl = document.getElementById("next");
+let score = 0;
+let currentQuestion = 0;
+const totalScore = quesJSON.length;
 
+nextEl.addEventListener("click", ()=>{
+  scoreEl.textContent = `Score: ${score}/${totalScore}`;
+  nextQuestion();
+});
+showQuestion();
 function showQuestion(){
     const {correctAnswer, options, question} = quesJSON[currentQuestion];
     // manipulating the dom 
@@ -80,36 +87,25 @@ shuffledOptions.forEach((opt) =>{
             score = score-0.25;
         }
         console.log(score);
-        scoreEl.textContent = `Score: ${score}`;
-        questionEl.textContent = `quiz completed!!!`
-        optionEl.textContent = "";
+        scoreEl.textContent = `Score: ${score}/${totalScore}`;
+       nextQuestion();
     })
 });
 
 }
 
-//  adding buttons on the option div
-const shuffledOptions = shuffleOptions(options);
 
-// populating the options
-shuffledOptions.forEach((opt) =>{
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-    optionEl.appendChild(btn);
 
-    // event handling on the button
-    btn.addEventListener("click", ()=>{
-        if(opt == correctAnswer){
-            score++;
-        }else{
-            score = score-0.25;
-        }
-        console.log(score);
-        scoreEl.textContent = `Score: ${score}`;
-        questionEl.textContent = `quiz completed!!!`
-        optionEl.textContent = "";
-    })
-});
+function nextQuestion(){
+  currentQuestion++;
+  optionEl.textContent = "";
+  if( currentQuestion>= quesJSON.length){
+    questionEl.textContent = `quiz completed!!!`
+    nextEl.remove();
+  }else{
+    showQuestion();
+  }
+}
 
 // shuffling the options
 function shuffleOptions(options){
